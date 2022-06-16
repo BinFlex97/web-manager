@@ -26,16 +26,19 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg">
-            <div class="header__content container">
+            <div class="header__content">
                 <div class="logo-nav">
                     <a class="navbar-brand" href="#">
-                        <i class="fa-brands fa-apple"></i>
-                        <span>Apple Manager</span>
+                        <img style="width: 200px;"
+                            src="https://xwatch.vn/images/products/2022/03/23/original/orient-star-RE-AT0004S00B-(5)_1648026327.jpg"
+                            alt="">
+                        <span>Watch Manager</span>
                     </a>
                 </div>
             </div>
         </nav>
     </header>
+    <section class="CarouselWatch"></section>
     <section class="ProductList p-5">
         <div class="container">
             <h2 class="mb-4">
@@ -62,7 +65,8 @@
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#exampleModal" data-whatever="@mdo">
                                 <i class="fa-solid fa-plus"></i>
-                                <span class="ml-1">Thêm mới</span></button>
+                                <span class="ml-1">Thêm mới</span>
+                            </button>
                         </div>
                         <div class="col-4">
                             <div class="Input_search d-flex align-items-center">
@@ -83,6 +87,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            <tbody id="tbodyTable"></tbody>
                         </table>
                     </div>
 
@@ -107,46 +112,55 @@
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
-                                    <label for="name" class="col-form-label">Tên Sản phẩm</label>
-                                    <input type="text" class="form-control" id="name">
+                                    <label for="nameSP" class="col-form-label">Tên Sản phẩm</label>
+                                    <input placeholder="Nhập vào tên SP" type="text" class="form-control" id="nameSP">
                                 </div>
                                 <div class="form-group">
-                                    <label for="price" class="col-form-label">Giá Sản Phẩm</label>
-                                    <input type="text" class="form-control" id="price">
+                                    <label for="brandSP" class="col-form-label">Nhãn Hiệu</label>
+                                    <input placeholder="Nhập vào nhãn hiệu SP" type="text" class="form-control"
+                                        id="brandSP">
                                 </div>
                                 <div class="form-group">
-                                    <label for="screen" class="col-form-label">Màn Hình</label>
-                                    <input type="text" class="form-control" id="screen">
+                                    <label for="priceSP" class="col-form-label">Giá Sản Phẩm</label>
+                                    <input placeholder="Nhập vào giá SP" type="text" class="form-control" id="priceSP">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="sizeSP" class="col-form-label">Kích cỡ Sản Phẩm</label>
+                                    <input placeholder="Nhập vào kích cỡ SP" type="text" class="form-control"
+                                        id="sizeSP">
                                 </div>
                                 <div class="form-group">
-                                    <label for="backCamera" class="col-form-label">Chỉ số Camera Sau</label>
-                                    <input type="text" class="form-control" id="backCamera">
+                                    <label for="modelSP" class="col-form-label">Kiểu mẫu sản phẩm</label>
+                                    <input placeholder="Nhập vào kiểu mẫu SP" type="text" class="form-control"
+                                        id="modelSP">
                                 </div>
                                 <div class="form-group">
-                                    <label for="frontCamera" class="col-form-label">Chỉ số Camera Trước</label>
-                                    <input type="text" class="form-control" id="frontCamera">
+                                    <label for="strapSP">Loại Dây Sản Phẩm</label>
+                                    <select class="custom-select" id="strapSP">
+                                        <option selected>Hãy chọn loại dây</option>
+                                        <option>Dây Da</option>
+                                        <option>Dây kim Loại</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="img" class="col-form-label">Hình Ảnh</label>
-                                    <input type="text" class="form-control" id="img">
+                                    <label for="imgSP" class="col-form-label">Hình Ảnh</label>
+                                    <input placeholder="Nhập vào hình ảnh SP" type="text" class="form-control"
+                                        id="imgSP">
                                 </div>
                                 <div class="form-group">
                                     <label>Mô tả</label>
-                                    <textarea placeholder="Nhập vào mô tả" class="form-control" name="" id="desc"
+                                    <textarea placeholder="Nhập vào mô tả" class="form-control" name="" id="descSP"
                                         cols="30" rows="10"></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <select class="custom-select">
-                                        <option selected>Chọn Loại Sản Phẩm</option>
-                                        <option value="1">Iphone</option>
-                                        <option value="2">SamSung</option>
-                                    </select>
-                                </div>
-
-
                             </form>
                         </div>
-                        <div class="modal-footer"></div>
+                        <div class="modal-footer">
+                            <button onclick="themProduct()" class="btn btn-success">
+                                <i class="fa-solid fa-plus"></i>
+                                <span class="ml-1">Add Product</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,6 +173,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
         crossorigin="anonymous"></script>
+
+    <!-- AXIOS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Class -->
+    <script src="./app/models/Watch.js"></script>
+    <script src="./app/services/WatchList.js"></script>
+    <!-- Mani JS -->
+    <script src="./app/controllers/main.js"></script>
 </body>
 
 </html>

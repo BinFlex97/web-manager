@@ -9,22 +9,26 @@ body, html {
   font-family: 'Roboto', sans-serif;
 }
 
-header .navbar .header__content {
-  background-color: rgba(210, 105, 30, 0.505);
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+header {
+  position: absolute;
 }
 
 header .navbar .header__content a {
   display: block;
   font-size: 50px;
   font-weight: 700;
-  color: black;
+  color: white;
 }
 
 header .navbar .header__content a i {
   color: white;
+}
+
+.CarouselWatch {
+  background-image: url(../img/pngtree-classic-quartz-watch-big-black-banner-image_166389.jpg);
+  height: 500px;
+  background-position: center;
+  background-size: cover;
 }
 
 .ProductList .Input_search i {

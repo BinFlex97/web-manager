@@ -1,11 +1,10 @@
 header{
+    position: absolute;
     .navbar{
         .header__content{
-            background-color: rgba(210, 105, 30, 0.505);
-            justify-content: center;
             a{
                 display: block;
-                @include styleText($fs-1,$fw-4,$color-black-1);
+                @include styleText($fs-1,$fw-4,$color-white-1);
                 i{
                     color: white;
                 }
@@ -13,5 +12,4 @@ header{
         }
 
     }
-    
 }
