@@ -77,10 +77,8 @@ function hienThiTable(mangSP) {
         `;
     });
     document.getElementById("tbodyTable").innerHTML = content;
-}
+};
 
-
-//
 function areUSure(id) {
     const promise = DSSP.getProductItem(id);
     promise.then(function (result) {
@@ -90,9 +88,6 @@ function areUSure(id) {
         <button onclick = "xoaSanPham('${result.data.id}')" class="btn btn-success">Agree</button>
         <button data-dismiss="modal" class="btn btn-danger">Cancel</button>
         `;
-    });
-    promise.catch(function (error) {
-        console.log(error);
     });
 }
 
@@ -165,6 +160,3 @@ function capNhapSanPham(id) {
 function resetInfo() {
     document.getElementById("formSP").reset();
 }
-
-
-
