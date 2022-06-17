@@ -69,55 +69,49 @@ function hienThiTable(mangSP) {
                 <th>
                     <button onclick ="hienThiChiTiet('${sp.id}')" data-toggle="modal" data-target="#exampleModal" class = "btn btn-primary">Xem</button>
 
-                    <button onclick ="xoaSanPham('${sp.id}')" id="clear" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                    <button onclick ="areUSure('${sp.id}')" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
                         Xóa
                     </button>
-                    <!-- Delete Modal -->
-                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel">Bạn có muốn xóa</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-footer">
-                                    <button onclick ="xoaSanPham('${sp.id}')"type="button" class="btn btn-success" data-dismiss="modal">Agree</button>
-                                    <button onclick="cancelDelete()" type="button" class="btn btn-danger"
-                                    data-dismiss="modal">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </th>
             </tr>
         `;
     });
     document.getElementById("tbodyTable").innerHTML = content;
 }
+
+
+//
+function areUSure(id) {
+    const promise = DSSP.getProductItem(id);
+    promise.then(function (result) {
+        // Thành Công
+        // console.log(result.data);
+        document.querySelector("#deleteModal .modal-footer").innerHTML = `
+        <button onclick = "xoaSanPham('${result.data.id}')" class="btn btn-success">Agree</button>
+        <button data-dismiss="modal" class="btn btn-danger">Cancel</button>
+        `;
+    });
+    promise.catch(function (error) {
+        console.log(error);
+    });
+}
+
 //Xóa Sản Phẩm
 function xoaSanPham(id) {
 
-    console.log(id);
-    // const promise = DSSP.deleteProduct(id);
-    // promise.then(function (result) {
-    //     //Lấy thành công
-    //     getProductList(result.data);
-    //     document.querySelector("#deleteModal .close").click();
+    // console.log(id);
+    const promise = DSSP.deleteProduct(id);
+    promise.then(function (result) {
+        //Lấy thành công
+        getProductList(result.data);
+        document.querySelector("#deleteModal .close").click();
 
-    // });
-    // promise.catch(function (error) {
-    //     console.log(error);
-    // });
+    });
+    promise.catch(function (error) {
+        console.log(error);
+    });
 }
 
-
-// Hủy xóa Sản Phẩm
-function cancelDelete() {
-    document.querySelector("#deleteModal .close").click();
-}
 //Hiển thị chi tiết
 function hienThiChiTiet(id) {
     const promise = DSSP.getProductItem(id);
