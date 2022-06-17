@@ -8,7 +8,7 @@ function WatchList() {
         });
     };
 
-    this.AddProduct = function (sp) {
+    this.addProduct = function (sp) {
         // Send a POST request
         return axios({
             method: 'post',
@@ -28,7 +28,11 @@ function WatchList() {
             url: `https://62a8007ca89585c1770aba5e.mockapi.io/watch-list/${id}`,
         });
     };
-
-
-
+    this.updateProduct = function (sp, id) {
+        return axios({
+            method: 'put',
+            url: `https://62a8007ca89585c1770aba5e.mockapi.io/watch-list/${id}`,
+            data: sp,
+        });
+    };
 }
