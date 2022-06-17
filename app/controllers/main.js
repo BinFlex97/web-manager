@@ -69,11 +69,11 @@ function hienThiTable(mangSP) {
                 <th>
                     <button onclick ="hienThiChiTiet('${sp.id}')" data-toggle="modal" data-target="#exampleModal" class = "btn btn-primary">Xem</button>
 
-                    <button onclick ="xoaSanPham('${sp.id}')" id="clear" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                    <button  id="clear" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal${sp.id}">
                         Xóa
                     </button>
                     <!-- Delete Modal -->
-                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+                    <div class="modal fade" id="deleteModal${sp.id}" tabindex="-1" aria-labelledby="deleteModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -100,17 +100,16 @@ function hienThiTable(mangSP) {
 //Xóa Sản Phẩm
 function xoaSanPham(id) {
 
-    console.log(id);
-    // const promise = DSSP.deleteProduct(id);
-    // promise.then(function (result) {
-    //     //Lấy thành công
-    //     getProductList(result.data);
-    //     document.querySelector("#deleteModal .close").click();
+    const promise = DSSP.deleteProduct(id);
+    promise.then(function (result) {
+        //Lấy thành công
+        getProductList(result.data);
+        document.querySelector("#deleteModal .close").click();
 
-    // });
-    // promise.catch(function (error) {
-    //     console.log(error);
-    // });
+    });
+    promise.catch(function (error) {
+        console.log(error);
+    });
 }
 
 
