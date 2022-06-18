@@ -101,13 +101,11 @@ function hienThiTable(mangSP) {
 //Xóa Sản Phẩm
 function xoaSanPham(id) {
 
-    // console.log(id);
+    console.log(id);
     const promise = DSSP.deleteProduct(id);
     promise.then(function (result) {
         //Lấy thành công
         getProductList(result.data);
-        document.querySelector("#deleteModal .close").click();
-
     });
     promise.catch(function (error) {
         console.log(error);
