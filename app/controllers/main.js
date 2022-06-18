@@ -78,14 +78,14 @@ function hienThiTable(mangSP) {
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel">Bạn có muốn xóa</h5>
+                                    <h5 class="modal-title" id="deleteModalLabel">Bạn có  chắc muốn xóa?</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-footer">
                                     <button onclick ="xoaSanPham('${sp.id}')"type="button" class="btn btn-success" data-dismiss="modal">Agree</button>
-                                    <button onclick="cancelDelete()" type="button" class="btn btn-danger"
+                                    <button type="button" class="btn btn-danger"
                                     data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -97,8 +97,6 @@ function hienThiTable(mangSP) {
     });
     document.getElementById("tbodyTable").innerHTML = content;
 };
-
-
 
 //Xóa Sản Phẩm
 function xoaSanPham(id) {
