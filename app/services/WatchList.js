@@ -36,3 +36,17 @@ function WatchList() {
         });
     };
 }
+
+WatchList.prototype.timKiemSanPham = function (tenTK, mangSP) {
+    var mangTK = [];
+
+    var tenTKThuong = tenTK.toLowerCase();
+    mangSP.map(function (sp) {
+        var tenSPThuong = sp.name.toLowerCase();
+        if (tenSPThuong.indexOf(tenTKThuong) > -1) {
+            mangTK.push(sp);
+        }
+    });
+    return mangTK;
+
+};

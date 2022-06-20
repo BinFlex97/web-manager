@@ -90,7 +90,7 @@ function Validation() {
     };
     this.kiemTraTrung = function (value, spanID, messagaer, mangSP) {
         var isExist = mangSP.some(function (sp) {
-            return value.trim() == sp.name;
+            return value.trim() == sp.name || value.trim() == sp.img;
         });
         if (isExist) {
             //Không hợp lệ.

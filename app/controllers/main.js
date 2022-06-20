@@ -235,3 +235,19 @@ function capNhapSanPham(id) {
 function resetInfo() {
     document.getElementById("formSP").reset();
 }
+// Tìm kiếm Tên Sản Phẩm
+function timKiemSanPham() {
+    var tenTK = document.getElementById("inputSP").value;
+    var mangTK = [];
+
+    const promise = DSSP.getList();
+    promise.then(function (result) {
+        //Thành Công
+        mangTK = DSSP.timKiemSanPham(tenTK, result.data);
+        hienThiTable(mangTK);
+    });
+    promise.catch(function (error) {
+        //Thất Bại
+        console.log(error);
+    });
+}
