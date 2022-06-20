@@ -88,4 +88,18 @@ function Validation() {
         document.getElementById(spanID).innerHTML = messagaer;
         return false;
     };
+    this.kiemTraTrung = function (value, spanID, messagaer, mangSP) {
+        var isExist = mangSP.some(function (sp) {
+            return value.trim() == sp.name;
+        });
+        if (isExist) {
+            //Không hợp lệ.
+            document.getElementById(spanID).innerHTML = messagaer;
+            return false;
+        }
+        //Hợp lệ
+        document.getElementById(spanID).innerHTML = "";
+        return true;
+
+    };
 };
