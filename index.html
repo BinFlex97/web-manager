@@ -111,26 +111,38 @@
                                 <div class="form-group">
                                     <label for="nameSP" class="col-form-label">Tên Sản phẩm</label>
                                     <input placeholder="Nhập vào tên SP" type="text" class="form-control" id="nameSP">
+                                    <span style="color: red;" id="tbName"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="brandSP" class="col-form-label">Nhãn Hiệu</label>
                                     <input placeholder="Nhập vào nhãn hiệu SP" type="text" class="form-control"
                                         id="brandSP">
+                                    <span style="color: red;" id="tbNhanHieu"></span>
+
                                 </div>
                                 <div class="form-group">
                                     <label for="priceSP" class="col-form-label">Giá Sản Phẩm</label>
                                     <input placeholder="Nhập vào giá SP" type="text" class="form-control" id="priceSP">
+                                    <span style="color: red;" id="tbGia"></span>
+
                                 </div>
 
                                 <div class="form-group">
                                     <label for="sizeSP" class="col-form-label">Kích cỡ Sản Phẩm</label>
                                     <input placeholder="Nhập vào kích cỡ SP" type="text" class="form-control"
                                         id="sizeSP">
+                                    <span style="color: red;" id="tbSize"></span>
+
                                 </div>
                                 <div class="form-group">
-                                    <label for="modelSP" class="col-form-label">Kiểu mẫu sản phẩm</label>
-                                    <input placeholder="Nhập vào kiểu mẫu SP" type="text" class="form-control"
-                                        id="modelSP">
+                                    <label for="modelSP">Kiểu mẫu SP</label>
+                                    <select class="custom-select" id="modelSP">
+                                        <option>Hãy chọn kiểu</option>
+                                        <option>Đồng Hồ Pin</option>
+                                        <option>Đồng Hồ Cơ</option>
+                                    </select>
+                                    <span style="color: red;" id="tbModel"></span>
+
                                 </div>
                                 <div class="form-group">
                                     <label for="strapSP">Loại Dây Sản Phẩm</label>
@@ -139,16 +151,22 @@
                                         <option>Dây Da</option>
                                         <option>Dây Kim Loại</option>
                                     </select>
+                                    <span style="color: red;" id="tbStrap"></span>
+
                                 </div>
                                 <div class="form-group">
                                     <label for="imgSP" class="col-form-label">Hình Ảnh</label>
                                     <input placeholder="Nhập vào hình ảnh SP" type="text" class="form-control"
                                         id="imgSP">
+                                    <span style="color: red;" id="tbHinhAnh"></span>
+
                                 </div>
                                 <div class="form-group">
                                     <label>Mô tả</label>
                                     <textarea placeholder="Nhập vào mô tả" class="form-control" name="" id="descSP"
                                         cols="30" rows="10"></textarea>
+                                    <span style="color: red;" id="tbMoTa"></span>
+
                                 </div>
                             </form>
                         </div>
@@ -171,6 +189,7 @@
     <!-- Class -->
     <script src="./app/models/Watch.js"></script>
     <script src="./app/services/WatchList.js"></script>
+    <script src="./app/services/Validation.js"></script>
     <!-- Mani JS -->
     <script src="./app/controllers/main.js"></script>
 </body>

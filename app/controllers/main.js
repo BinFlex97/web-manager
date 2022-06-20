@@ -1,5 +1,6 @@
 
 const DSSP = new WatchList();
+const vali = new Validation();
 // Get Products
 function getProductList() {
     const promise = DSSP.getList();
@@ -19,6 +20,19 @@ getProductList();
 function getELE(id) {
     return document.getElementById(id);
 }
+
+// Tạo buttton Add Product
+document.querySelector("#AddButton").addEventListener("click", function () {
+    document.querySelector("#exampleModal .modal-footer").innerHTML = `
+        <button onclick = "themSanPham()" class ="btn btn-success">
+            <i class="fa-solid fa-plus"></i>
+            <span class = "ml-1" >Add Product</span>
+        </button>
+    `;
+    resetInfo();
+});
+
+
 //Add Product
 function themSanPham() {
     var tenSP = getELE("nameSP").value;
@@ -30,28 +44,41 @@ function themSanPham() {
     var hinhAnhSP = getELE("imgSP").value;
     var moTaSP = getELE("descSP").value;
 
-    var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP);
-    const promise = DSSP.addProduct(sp);
-    promise.then(function (result) {
-        // lấy Thành Công
-        getProductList();
+    var isvali = true;
+    //! Các Bước kiểm Tra
+    //? kiểm tra Tên 
+    isvali &= vali.kiemTraRong(tenSP, "tbName", "Tên không được để trống") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng");
+    //? Kiểm tra Nhãn Hiệu
+    isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không được để trống") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
+    //? Kiểm tra Giá
+    isvali &= vali.kiemTraRong(giaSP, "tbGia", "Giá không được để trống") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
+    //? Kiểm tra Kích cỡ
+    isvali &= vali.kiemTraRong(size, "tbSize", "Size không được để trống") && vali.kiemTraKichCo(size, "tbSize", " Size đo bằng 'mm'");
+    //? Kiểm tra Kiểu Mẫu
+    isvali &= vali.kiemTraKieuMau("modelSP", "tbModel", "Hãy chọn kiểu mẫu");
+    //? Kiểm tra Loại dây
+    isvali &= vali.kiemTraLoaiDay("strapSP", "tbStrap", "Hãy chọn loại dây");
+    //? Kiểm tra Hình Ảnh
+    isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Hình Ảnh không được để trống");
+    //? Kiểm tra Mô tả
+    isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Hãy mô tả sản phẩm") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
 
-        document.querySelector("#exampleModal .close").click();
-    });
-    promise.catch(function (error) {
-        console.log(error);
-    });
+    if (isvali) {
+        var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP);
+        const promise = DSSP.addProduct(sp);
+        promise.then(function (result) {
+            // lấy Thành Công
+            getProductList();
+
+            document.querySelector("#exampleModal .close").click();
+        });
+        promise.catch(function (error) {
+            console.log(error);
+        });
+    }
+
 }
-// Tạo buttton Add Product
-document.querySelector("#AddButton").addEventListener("click", function () {
-    document.querySelector("#exampleModal .modal-footer").innerHTML = `
-        <button onclick = "themSanPham()" class = "btn btn-success">
-            <i class="fa-solid fa-plus"></i>
-            <span class = "ml-1" >Add Product</span>
-        </button>
-    `;
-    resetInfo();
-});
+
 //Hiển thị Table
 function hienThiTable(mangSP) {
     var content = "";
@@ -100,8 +127,6 @@ function hienThiTable(mangSP) {
 
 //Xóa Sản Phẩm
 function xoaSanPham(id) {
-
-    console.log(id);
     const promise = DSSP.deleteProduct(id);
     promise.then(function (result) {
         //Lấy thành công
@@ -138,7 +163,6 @@ function hienThiChiTiet(id) {
 }
 // Cập Nhập sản Phẩm
 function capNhapSanPham(id) {
-    console.log(id);
     var tenSP = getELE("nameSP").value;
     var nhanHieu = getELE("brandSP").value;
     var giaSP = getELE("priceSP").value;
