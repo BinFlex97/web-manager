@@ -189,7 +189,8 @@ function capNhapSanPham(id) {
     var isvali = true;
 
     //! Các Bước kiểm Tra
-
+    //? Kiểm tra tên
+    isvali &= vali.kiemTraRong(tenSP, "tbName", "Tên không được để trống") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng");
     //? Kiểm tra Nhãn Hiệu
     isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không được để trống") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
     //? Kiểm tra Giá
@@ -202,20 +203,8 @@ function capNhapSanPham(id) {
     isvali &= vali.kiemTraLoaiDay("strapSP", "tbStrap", "Hãy chọn loại dây");
     //? Kiểm tra Mô tả
     isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Hãy mô tả sản phẩm") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
-
-    //Lấy lại mảng data
-    const promise1 = DSSP.getList();
-    promise1.then(function (result) {
-        //Thành công
-        //? kiểm tra Tên 
-        isvali &= vali.kiemTraRong(tenSP, "tbName", "Tên không được để trống") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng") && vali.kiemTraTrung(tenSP, "tbName", "Tên Sản Phẩm Đã Có", result.data);
-        //? Kiểm tra Hình Ảnh
-        isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Hình Ảnh không được để trống") && vali.kiemTraTrung(hinhAnhSP, "tbHinhAnh", "Hình Ảnh Đã Có", result.data);
-    });
-    promise1.catch(function (error) {
-        //Thất bại
-        console.log(error);
-    });
+    //? Kiểm tra Hình Ảnh
+    isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Hình Ảnh không được để trống");
 
     if (isvali) {
         var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP);
@@ -236,7 +225,7 @@ function resetInfo() {
     document.getElementById("formSP").reset();
 }
 // Tìm kiếm Tên Sản Phẩm
-function timKiemSanPham() {
+getELE("inputSP").onkeyup = function () {
     var tenTK = document.getElementById("inputSP").value;
     var mangTK = [];
 
@@ -250,4 +239,4 @@ function timKiemSanPham() {
         //Thất Bại
         console.log(error);
     });
-}
+};
