@@ -24,7 +24,7 @@ function getELE(id) {
 // Tạo buttton Add Product
 document.querySelector("#AddButton").addEventListener("click", function () {
     document.querySelector("#exampleModal .modal-footer").innerHTML = `
-        <button onclick = "themSanPham()" class ="btn btn-success">
+        <button id="abc" onclick = "themSanPham()" class ="btn btn-success">
             <i class="fa-solid fa-plus"></i>
             <span class = "ml-1" >Add Product</span>
         </button>
@@ -47,7 +47,7 @@ function themSanPham() {
 
 
     var isvali = true;
-    //! Các Bước kiểm Tra
+    // ! Các Bước kiểm Tra
 
     //? Kiểm tra Nhãn Hiệu
     isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập Nhãn Hiệu!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
@@ -61,11 +61,12 @@ function themSanPham() {
     isvali &= vali.kiemTraLoaiDay("strapSP", "tbStrap", "Hãy chọn loại dây!");
     //? Kiểm tra Mô tả
     isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Vui lòng mô tả sản phẩm!") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
+    isvali &= vali.kiemTraRong(imgDetailSP, "tbimgDetail", "Vui lòng thêm hình ảnh chi tiết của sản phẩm");
 
-    //Lấy lại mảng data
+    // Lấy lại mảng data
     const promise1 = DSSP.getList();
     promise1.then(function (result) {
-        //Thành công
+        // Thành công
         //? kiểm tra Tên 
         isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên sản phẩm không đúng định dạng") && vali.kiemTraTrung(tenSP, "tbName", "Tên Sản Phẩm Đã Có", result.data);
         //? Kiểm tra Hình Ảnh
@@ -81,7 +82,9 @@ function themSanPham() {
         const promise = DSSP.addProduct(sp);
         promise.then(function (result) {
             // Thành Công
+
             getProductList();
+            swal("Thêm Thành Công!", "You clicked the button!", "success");
 
             document.querySelector("#exampleModal .close").click();
         });
@@ -102,7 +105,7 @@ function hienThiTable(mangSP) {
             <tr>
                 <th>${++stt}</th>
                 <th>${sp.name}</th>
-                <th>$${sp.price.toLocaleString()}</th>
+                <th>${sp.price.toLocaleString()}$</th>
                 <th>
                     <img style = "width: 100px;" src="${sp.img}" alt="">
                 </th>
@@ -144,6 +147,8 @@ function xoaSanPham(id) {
     const promise = DSSP.deleteProduct(id);
     promise.then(function (result) {
         //Thành công
+        swal("Xóa Thành Công!", "You clicked the button!", "success");
+
         getProductList(result.data);
     });
     promise.catch(function (error) {
@@ -151,7 +156,6 @@ function xoaSanPham(id) {
         console.log(error);
     });
 }
-
 //Hiển thị chi tiết
 function hienThiChiTiet(id) {
     const promise = DSSP.getProductItem(id);
@@ -209,6 +213,8 @@ function capNhapSanPham(id) {
     isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Hãy mô tả sản phẩm") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
     //? Kiểm tra Hình Ảnh
     isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh sản phẩm!");
+    //? Kiểm tra chi tiết hình ảnh
+    isvali &= vali.kiemTraRong(imgDetailSP, "imgDetail", "Vui lòng thêm hình ảnh chi tiết sản phẩm");
 
     if (isvali) {
         var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP);
@@ -217,6 +223,7 @@ function capNhapSanPham(id) {
             // Thành Công
             getProductList();
 
+            swal("Cập nhập thành công!", "You clicked the button!", "success");
             document.querySelector("#exampleModal .close").click();
         });
         promise.catch(function (error) {
