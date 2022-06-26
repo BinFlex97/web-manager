@@ -43,31 +43,33 @@ function themSanPham() {
     var strap = getELE("strapSP").value;
     var hinhAnhSP = getELE("imgSP").value;
     var moTaSP = getELE("descSP").value;
+    var imgDetailSP = getELE("imgDetail").value;
+
 
     var isvali = true;
     //! Các Bước kiểm Tra
 
     //? Kiểm tra Nhãn Hiệu
-    isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không được để trống") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
+    isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập Nhãn Hiệu!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
     //? Kiểm tra Giá
-    isvali &= vali.kiemTraRong(giaSP, "tbGia", "Giá không được để trống") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
+    isvali &= vali.kiemTraRong(giaSP, "tbGia", "vui lòng nhập giá!") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
     //? Kiểm tra Kích cỡ
-    isvali &= vali.kiemTraRong(size, "tbSize", "Size không được để trống") && vali.kiemTraKichCo(size, "tbSize", " Size đo bằng 'mm'");
+    isvali &= vali.kiemTraRong(size, "tbSize", "Vui lòng nhập kích cỡ!") && vali.kiemTraKichCo(size, "tbSize", " kích cỡ bằng 'milimet'");
     //? Kiểm tra Kiểu Mẫu
-    isvali &= vali.kiemTraKieuMau("modelSP", "tbModel", "Hãy chọn kiểu mẫu");
+    isvali &= vali.kiemTraKieuMau("modelSP", "tbModel", "Hãy chọn kiểu mẫu!");
     //? Kiểm tra Loại dây
-    isvali &= vali.kiemTraLoaiDay("strapSP", "tbStrap", "Hãy chọn loại dây");
+    isvali &= vali.kiemTraLoaiDay("strapSP", "tbStrap", "Hãy chọn loại dây!");
     //? Kiểm tra Mô tả
-    isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Hãy mô tả sản phẩm") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
+    isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Vui lòng mô tả sản phẩm!") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
 
     //Lấy lại mảng data
     const promise1 = DSSP.getList();
     promise1.then(function (result) {
         //Thành công
         //? kiểm tra Tên 
-        isvali &= vali.kiemTraRong(tenSP, "tbName", "Tên không được để trống") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng") && vali.kiemTraTrung(tenSP, "tbName", "Tên Sản Phẩm Đã Có", result.data);
+        isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên sản phẩm không đúng định dạng") && vali.kiemTraTrung(tenSP, "tbName", "Tên Sản Phẩm Đã Có", result.data);
         //? Kiểm tra Hình Ảnh
-        isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Hình Ảnh không được để trống") && vali.kiemTraTrung(hinhAnhSP, "tbHinhAnh", "Hình Ảnh Đã Có", result.data);
+        isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh") && vali.kiemTraTrung(hinhAnhSP, "tbHinhAnh", "Hình Ảnh Đã Có", result.data);
     });
     promise1.catch(function (error) {
         //Thất bại
@@ -75,7 +77,7 @@ function themSanPham() {
     });
 
     if (isvali) {
-        var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP);
+        var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP, imgDetailSP);
         const promise = DSSP.addProduct(sp);
         promise.then(function (result) {
             // Thành Công
@@ -100,7 +102,7 @@ function hienThiTable(mangSP) {
             <tr>
                 <th>${++stt}</th>
                 <th>${sp.name}</th>
-                <th>${sp.price}</th>
+                <th>$${sp.price.toLocaleString()}</th>
                 <th>
                     <img style = "width: 100px;" src="${sp.img}" alt="">
                 </th>
@@ -163,6 +165,8 @@ function hienThiChiTiet(id) {
         getELE("strapSP").value = result.data.strap;
         getELE("imgSP").value = result.data.img;
         getELE("descSP").value = result.data.desc;
+        getELE("imgDetail").value = result.data.imgDetail;
+
 
         document.querySelector("#exampleModal .modal-footer").innerHTML = `
         <button onclick = "capNhapSanPham('${result.data.id}')" class = "btn btn-success">Cập Nhập</button>
@@ -173,7 +177,6 @@ function hienThiChiTiet(id) {
         //Thất Bại
         console.log(error);
     });
-
 }
 // Cập Nhập sản Phẩm
 function capNhapSanPham(id) {
@@ -185,18 +188,19 @@ function capNhapSanPham(id) {
     var strap = getELE("strapSP").value;
     var hinhAnhSP = getELE("imgSP").value;
     var moTaSP = getELE("descSP").value;
+    var imgDetailSP = getELE("imgDetail").value;
 
     var isvali = true;
 
     //! Các Bước kiểm Tra
     //? Kiểm tra tên
-    isvali &= vali.kiemTraRong(tenSP, "tbName", "Tên không được để trống") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng");
+    isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng");
     //? Kiểm tra Nhãn Hiệu
-    isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không được để trống") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
+    isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập nhãn hiệu sản phẩm!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
     //? Kiểm tra Giá
-    isvali &= vali.kiemTraRong(giaSP, "tbGia", "Giá không được để trống") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
+    isvali &= vali.kiemTraRong(giaSP, "tbGia", "Vui lòng nhập giá sản phẩm!") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
     //? Kiểm tra Kích cỡ
-    isvali &= vali.kiemTraRong(size, "tbSize", "Size không được để trống") && vali.kiemTraKichCo(size, "tbSize", " Size đo bằng 'mm'");
+    isvali &= vali.kiemTraRong(size, "tbSize", "Vui lòng nhập kích cỡ sản phẩm!") && vali.kiemTraKichCo(size, "tbSize", "Kích cỡ sản phẩm bằng 'milimet'");
     //? Kiểm tra Kiểu Mẫu
     isvali &= vali.kiemTraKieuMau("modelSP", "tbModel", "Hãy chọn kiểu mẫu");
     //? Kiểm tra Loại dây
@@ -204,7 +208,7 @@ function capNhapSanPham(id) {
     //? Kiểm tra Mô tả
     isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Hãy mô tả sản phẩm") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
     //? Kiểm tra Hình Ảnh
-    isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Hình Ảnh không được để trống");
+    isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh sản phẩm!");
 
     if (isvali) {
         var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP);
