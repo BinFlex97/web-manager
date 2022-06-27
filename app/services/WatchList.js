@@ -1,5 +1,5 @@
 function WatchList() {
-    this.mangSP = [];
+    this.watchList = [];
     this.getList = function () {
         // GET request for remote image in node.js
         return axios({

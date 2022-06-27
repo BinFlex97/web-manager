@@ -8,7 +8,7 @@ function getProductList() {
     promise.then(function (result) {
         // Thành công
         result.data.map(function (sp,index) {
-            DSSP.mangSP[index] = sp;
+            DSSP.watchList[index] = sp;
         })
         hienThiTable(result.data);
     });
@@ -205,7 +205,7 @@ function capNhapSanPham(id) {
 
     //! Các Bước kiểm Tra
     //? Kiểm tra tên
-    isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng") && vali.kiemTraTrung(id, tenSP, "tbName", "Tên sản phẩm đã tồn tại",DSSP.mangSP);
+    isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng") && vali.kiemTraTrung(id, tenSP, "tbName", "Tên sản phẩm đã tồn tại",DSSP.watchList);
     //? Kiểm tra Nhãn Hiệu
     isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập nhãn hiệu sản phẩm!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
     //? Kiểm tra Giá
@@ -219,12 +219,12 @@ function capNhapSanPham(id) {
     //? Kiểm tra Mô tả
     isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Hãy mô tả sản phẩm") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
     //? Kiểm tra Hình Ảnh
-    isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh sản phẩm!") && vali.kiemTraTrung(id, hinhAnhSP, "tbHinhAnh", "Hình sản phẩm đã tồn tại", DSSP.mangSP);
+    isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh sản phẩm!") && vali.kiemTraTrung(id, hinhAnhSP, "tbHinhAnh", "Hình sản phẩm đã tồn tại", DSSP.watchList);
     //? Kiểm tra chi tiết hình ảnh
     isvali &= vali.kiemTraRong(imgDetailSP, "imgDetail", "Vui lòng thêm hình ảnh chi tiết sản phẩm");
 
     if (isvali) {
-        var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP);
+        var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP, imgDetailSP);
         const promise = DSSP.updateProduct(sp, id);
         promise.then(function (result) {
             // Thành Công
