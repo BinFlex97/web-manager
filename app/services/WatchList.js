@@ -36,7 +36,7 @@ function WatchList() {
         });
     };
 }
-
+//Tìm kiếm sản phẩm
 WatchList.prototype.timKiemSanPham = function (tenTK, mangSP) {
     var mangTK = [];
 

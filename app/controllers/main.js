@@ -52,7 +52,7 @@ function themSanPham() {
     //? Kiểm tra Nhãn Hiệu
     isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập Nhãn Hiệu!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
     //? Kiểm tra Giá
-    isvali &= vali.kiemTraRong(giaSP, "tbGia", "vui lòng nhập giá!") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
+    isvali &= vali.kiemTraRong(giaSP, "tbGia", "Vui lòng nhập giá!") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
     //? Kiểm tra Kích cỡ
     isvali &= vali.kiemTraRong(size, "tbSize", "Vui lòng nhập kích cỡ!") && vali.kiemTraKichCo(size, "tbSize", " kích cỡ bằng 'milimet'");
     //? Kiểm tra Kiểu Mẫu
@@ -82,10 +82,11 @@ function themSanPham() {
         const promise = DSSP.addProduct(sp);
         promise.then(function (result) {
             // Thành Công
-
+            //Thêm và hiển thị lên Table
             getProductList();
+            //Hiển thị table Thành công
             swal("Thêm Thành Công!", "You clicked the button!", "success");
-
+            //Đóng popup
             document.querySelector("#exampleModal .close").click();
         });
         promise.catch(function (error) {
@@ -105,7 +106,7 @@ function hienThiTable(mangSP) {
             <tr>
                 <th>${++stt}</th>
                 <th>${sp.name}</th>
-                <th>${sp.price.toLocaleString()}$</th>
+                <th>${Number(sp.price).toLocaleString()}$</th>
                 <th>
                     <img style = "width: 100px;" src="${sp.img}" alt="">
                 </th>
@@ -141,15 +142,16 @@ function hienThiTable(mangSP) {
     });
     document.getElementById("tbodyTable").innerHTML = content;
 };
-
 //Xóa Sản Phẩm
 function xoaSanPham(id) {
     const promise = DSSP.deleteProduct(id);
     promise.then(function (result) {
         //Thành công
+        //Xóa Sản phẩm
+        getProductList();
+        //Xóa thành công
         swal("Xóa Thành Công!", "You clicked the button!", "success");
 
-        getProductList(result.data);
     });
     promise.catch(function (error) {
         //Thất Bại
@@ -171,6 +173,7 @@ function hienThiChiTiet(id) {
         getELE("descSP").value = result.data.desc;
         getELE("imgDetail").value = result.data.imgDetail;
 
+        hiddenVali();
 
         document.querySelector("#exampleModal .modal-footer").innerHTML = `
         <button onclick = "capNhapSanPham('${result.data.id}')" class = "btn btn-success">Cập Nhập</button>
@@ -221,9 +224,11 @@ function capNhapSanPham(id) {
         const promise = DSSP.updateProduct(sp, id);
         promise.then(function (result) {
             // Thành Công
+            // Cập nhập thành công và hiển thị table
             getProductList();
-
+            // Cập nhập thành công
             swal("Cập nhập thành công!", "You clicked the button!", "success");
+            // Đóng popup
             document.querySelector("#exampleModal .close").click();
         });
         promise.catch(function (error) {
@@ -251,3 +256,11 @@ getELE("inputSP").onkeyup = function () {
         console.log(error);
     });
 };
+
+// Ẩn validation
+function hiddenVali() {
+    var hiddenELE = document.querySelectorAll("#exampleModal .tbText");
+    for (var i = 0; i < hiddenELE.length; i++) {
+        hiddenELE[i].innerHTML = "";
+    }
+}
