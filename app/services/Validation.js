@@ -88,9 +88,11 @@ function Validation() {
         document.getElementById(spanID).innerHTML = messagaer;
         return false;
     };
-    this.kiemTraTrung = function (value, spanID, messagaer, mangSP) {
+    this.kiemTraTrung = function (id, value, spanID, messagaer, mangSP) {
         var isExist = mangSP.some(function (sp) {
-            return value.trim() == sp.name || value.trim() == sp.img;
+            if(id.trim() != sp.id){
+                return value.trim() == sp.name || value.trim() == sp.img;
+            }
         });
         if (isExist) {
             //Không hợp lệ.

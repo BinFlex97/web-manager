@@ -7,6 +7,9 @@ function getProductList() {
 
     promise.then(function (result) {
         // Thành công
+        result.data.map(function (sp,index) {
+            DSSP.mangSP[index] = sp;
+        })
         hienThiTable(result.data);
     });
     promise.catch(function (error) {
@@ -52,8 +55,8 @@ function themSanPham() {
         // Thành công
         var isvali = true;
         // ! Các Bước kiểm Tra
-        //? kiểm tra Tên 
-        isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên sản phẩm không đúng định dạng") && vali.kiemTraTrung(tenSP, "tbName", "Tên Sản Phẩm Đã Có", result.data);
+        //? kiểm tra Tên
+        isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên sản phẩm không đúng định dạng") && vali.kiemTraTrung('-1', tenSP, "tbName", "Tên Sản Phẩm Đã Có ", result.data);
         //? Kiểm tra Nhãn Hiệu
         isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập Nhãn Hiệu!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
         //? Kiểm tra Giá
@@ -67,7 +70,7 @@ function themSanPham() {
         //? Kiểm tra Mô tả
         isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Vui lòng mô tả sản phẩm!") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
         //? Kiểm tra Hình Ảnh
-        isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh") && vali.kiemTraTrung(hinhAnhSP, "tbHinhAnh", "Hình Ảnh Đã Có", result.data);
+        isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh") && vali.kiemTraTrung('-1', hinhAnhSP, "tbHinhAnh", "Hình Ảnh Đã Có", result.data);
         //? Kiểm tra hình Ảnh chi tiết
         isvali &= vali.kiemTraRong(imgDetailSP, "tbimgDetail", "Vui lòng thêm hình ảnh chi tiết của sản phẩm");
 
@@ -202,7 +205,7 @@ function capNhapSanPham(id) {
 
     //! Các Bước kiểm Tra
     //? Kiểm tra tên
-    isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng");
+    isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên không đúng định dạng") && vali.kiemTraTrung(id, tenSP, "tbName", "Tên sản phẩm đã tồn tại",DSSP.mangSP);
     //? Kiểm tra Nhãn Hiệu
     isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập nhãn hiệu sản phẩm!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
     //? Kiểm tra Giá
@@ -216,7 +219,7 @@ function capNhapSanPham(id) {
     //? Kiểm tra Mô tả
     isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Hãy mô tả sản phẩm") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
     //? Kiểm tra Hình Ảnh
-    isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh sản phẩm!");
+    isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh sản phẩm!") && vali.kiemTraTrung(id, hinhAnhSP, "tbHinhAnh", "Hình sản phẩm đã tồn tại", DSSP.mangSP);
     //? Kiểm tra chi tiết hình ảnh
     isvali &= vali.kiemTraRong(imgDetailSP, "imgDetail", "Vui lòng thêm hình ảnh chi tiết sản phẩm");
 

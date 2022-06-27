@@ -1,5 +1,5 @@
 function WatchList() {
-
+    this.mangSP = [];
     this.getList = function () {
         // GET request for remote image in node.js
         return axios({
@@ -7,7 +7,6 @@ function WatchList() {
             url: 'https://62a8007ca89585c1770aba5e.mockapi.io/watch-list',
         });
     };
-
     this.addProduct = function (sp) {
         // Send a POST request
         return axios({
