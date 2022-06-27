@@ -42,58 +42,59 @@ function themSanPham() {
     var model = getELE("modelSP").value;
     var strap = getELE("strapSP").value;
     var hinhAnhSP = getELE("imgSP").value;
-    var moTaSP = getELE("descSP").value;
     var imgDetailSP = getELE("imgDetail").value;
+    var moTaSP = getELE("descSP").value;
 
-
-    var isvali = true;
-    // ! Các Bước kiểm Tra
-
-    //? Kiểm tra Nhãn Hiệu
-    isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập Nhãn Hiệu!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
-    //? Kiểm tra Giá
-    isvali &= vali.kiemTraRong(giaSP, "tbGia", "Vui lòng nhập giá!") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
-    //? Kiểm tra Kích cỡ
-    isvali &= vali.kiemTraRong(size, "tbSize", "Vui lòng nhập kích cỡ!") && vali.kiemTraKichCo(size, "tbSize", " kích cỡ bằng 'milimet'");
-    //? Kiểm tra Kiểu Mẫu
-    isvali &= vali.kiemTraKieuMau("modelSP", "tbModel", "Hãy chọn kiểu mẫu!");
-    //? Kiểm tra Loại dây
-    isvali &= vali.kiemTraLoaiDay("strapSP", "tbStrap", "Hãy chọn loại dây!");
-    //? Kiểm tra Mô tả
-    isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Vui lòng mô tả sản phẩm!") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
-    isvali &= vali.kiemTraRong(imgDetailSP, "tbimgDetail", "Vui lòng thêm hình ảnh chi tiết của sản phẩm");
 
     // Lấy lại mảng data
     const promise1 = DSSP.getList();
     promise1.then(function (result) {
         // Thành công
+        var isvali = true;
+        // ! Các Bước kiểm Tra
         //? kiểm tra Tên 
         isvali &= vali.kiemTraRong(tenSP, "tbName", "Vui lòng nhập tên sản phẩm!") && vali.kiemTraTen(tenSP, "tbName", "Tên sản phẩm không đúng định dạng") && vali.kiemTraTrung(tenSP, "tbName", "Tên Sản Phẩm Đã Có", result.data);
+        //? Kiểm tra Nhãn Hiệu
+        isvali &= vali.kiemTraRong(nhanHieu, "tbNhanHieu", "Vui lòng nhập Nhãn Hiệu!") && vali.kiemTraNhanHieu(nhanHieu, "tbNhanHieu", "Nhãn Hiệu không đúng định dạng");
+        //? Kiểm tra Giá
+        isvali &= vali.kiemTraRong(giaSP, "tbGia", "Vui lòng nhập giá!") && vali.kiemTraGia(giaSP, "tbGia", " Giá không đúng định dạng");
+        //? Kiểm tra Kích cỡ
+        isvali &= vali.kiemTraRong(size, "tbSize", "Vui lòng nhập kích cỡ!") && vali.kiemTraKichCo(size, "tbSize", " kích cỡ bằng 'milimet'");
+        //? Kiểm tra Kiểu Mẫu
+        isvali &= vali.kiemTraKieuMau("modelSP", "tbModel", "Hãy chọn kiểu mẫu!");
+        //? Kiểm tra Loại dây
+        isvali &= vali.kiemTraLoaiDay("strapSP", "tbStrap", "Hãy chọn loại dây!");
+        //? Kiểm tra Mô tả
+        isvali &= vali.kiemTraRong(moTaSP, "tbMoTa", "Vui lòng mô tả sản phẩm!") && vali.kiemTraMota(moTaSP, "tbMoTa", "Mô tả không đúng định dạng");
         //? Kiểm tra Hình Ảnh
         isvali &= vali.kiemTraRong(hinhAnhSP, "tbHinhAnh", "Vui lòng thêm hình ảnh") && vali.kiemTraTrung(hinhAnhSP, "tbHinhAnh", "Hình Ảnh Đã Có", result.data);
+        //? Kiểm tra hình Ảnh chi tiết
+        isvali &= vali.kiemTraRong(imgDetailSP, "tbimgDetail", "Vui lòng thêm hình ảnh chi tiết của sản phẩm");
+
+        if (isvali) {
+            var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP, imgDetailSP);
+            const promise = DSSP.addProduct(sp);
+            promise.then(function (result) {
+                // Thành Công
+                //Thêm và hiển thị lên Table
+                getProductList();
+                //Hiển thị table Thành công
+                swal("Thêm Thành Công!", "You clicked the button!", "success");
+                //Đóng popup
+                document.querySelector("#exampleModal .close").click();
+            });
+            promise.catch(function (error) {
+                // Thất Bại
+                console.log(error);
+            });
+        }
     });
     promise1.catch(function (error) {
         //Thất bại
         console.log(error);
     });
 
-    if (isvali) {
-        var sp = new WatchProduct(tenSP, nhanHieu, giaSP, size, model, strap, hinhAnhSP, moTaSP, imgDetailSP);
-        const promise = DSSP.addProduct(sp);
-        promise.then(function (result) {
-            // Thành Công
-            //Thêm và hiển thị lên Table
-            getProductList();
-            //Hiển thị table Thành công
-            swal("Thêm Thành Công!", "You clicked the button!", "success");
-            //Đóng popup
-            document.querySelector("#exampleModal .close").click();
-        });
-        promise.catch(function (error) {
-            // Thất Bại
-            console.log(error);
-        });
-    }
+
 
 }
 
