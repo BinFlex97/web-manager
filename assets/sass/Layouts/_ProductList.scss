@@ -14,4 +14,10 @@
             border: 1px solid #dee2e6;
         }
     }
+    .link-seller{
+        color: white;
+        &:hover{
+            display: none;
+        }
+    }
 }

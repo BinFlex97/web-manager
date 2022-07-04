@@ -43,4 +43,12 @@ header .navbar .header__content a i {
 .ProductList .Product_Table th {
   border: 1px solid #dee2e6;
 }
+
+.ProductList .link-seller {
+  color: white;
+}
+
+.ProductList .link-seller:hover {
+  display: none;
+}
 /*# sourceMappingURL=main.css.map */
