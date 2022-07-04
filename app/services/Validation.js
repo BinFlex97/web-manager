@@ -90,7 +90,7 @@ function Validation() {
     };
     this.kiemTraTrung = function (id, value, spanID, messagaer, mangSP) {
         var isExist = mangSP.some(function (sp) {
-            if(id.trim() != sp.id){
+            if (id.trim() != sp.id) {
                 return value.trim() == sp.name || value.trim() == sp.img;
             }
         });
