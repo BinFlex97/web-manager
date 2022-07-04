@@ -17,7 +17,8 @@
     .link-seller{
         color: white;
         &:hover{
-            display: none;
+            background-color: red;
+            text-decoration: none;
         }
     }
 }

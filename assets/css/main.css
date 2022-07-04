@@ -49,6 +49,7 @@ header .navbar .header__content a i {
 }
 
 .ProductList .link-seller:hover {
-  display: none;
+  background-color: red;
+  text-decoration: none;
 }
 /*# sourceMappingURL=main.css.map */
